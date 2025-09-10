@@ -7,6 +7,8 @@ import Base: sin
 
 export estimate_wave_parameters, calculate_wave_shape, sin
 
+const τ = 2 * π
+
 struct WaveFitParams
     amplitude::Float64
     frequency::Float64
@@ -71,13 +73,13 @@ function calculate_wave_shape(xdata::Vector{T}, ydata::Vector{T};
 
     if params[1] < 0
         params[1] *= -1
-        params[3] -= 180
+        params[3] -= π
     end
-    params[3] = mod(params[3], 360)
-    if params[3] > 180
-        params[3] = params[3] - 360
-    elseif params[3] < -180
-        params[3] = params[3] + 360
+    params[3] = mod(params[3], τ)
+    if params[3] > π
+        params[3] = params[3] - τ
+    elseif params[3] < -π
+        params[3] = params[3] + τ
     end
 
     WaveFitParams(params...)
